@@ -1,0 +1,17 @@
+Stats with 0 - 10 values
+for Beings
+Life
+Strength
+Intelligence
+for Person
+Fear
+for Creatures
+Disquiet
+for Eldritch Horror
+Disquiet = MAX
+stats with 0 - 3 values
+for Investigators
+Terror
+for Eldritch Horror
+Traumatism
+
