@@ -1,0 +1,7 @@
+Creature
+Wolf
+4
+6
+5
+0
+2

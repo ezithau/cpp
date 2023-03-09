@@ -1,0 +1,1 @@
+int life, int strength, int intelligence, string gender, int fear

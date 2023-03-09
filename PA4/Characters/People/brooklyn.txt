@@ -1,0 +1,6 @@
+Investigator
+Reporter
+neutral
+5 7
+2 6
+6 8

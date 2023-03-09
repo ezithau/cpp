@@ -5,6 +5,6 @@ using namespace std;
 
 
 
-const int MAX_STAT = 10;
-const int ELDRITH_MAX = 3;
+const int MAX_STAT = 11;
+const int ELDRICTH_MAX = 4;
 const int MIN_STAT = 0;
