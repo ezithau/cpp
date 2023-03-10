@@ -14,13 +14,13 @@ T roll(T a, T b){
     return random_num;
 };
 
-enum Unnatural {
+enum Origin {
 	Natural,
 	Unnatural
 };
 static const char* UnnaturalStrings[] = {"Natural", "Unnatural"};
 
-const char * getUnNaturalString(int value){
+const char * getOriginString(int value){
 	return UnnaturalStrings[value];
 }
 
@@ -33,11 +33,11 @@ class Being{
         int strength;
         int intelligence;
 		virtual void print();
-		virtual string getTxtStringb();
+		virtual string getTxtString();
 	
 };
 
-string Being::getTxtStringb(){
+string Being::getTxtString(){
 	string txtString = "";
 	txtString += this->name;
 	txtString += "\n" + to_string(this->life);
@@ -73,7 +73,7 @@ class Person: public Being {
 
 string Person::getTxtString(){
 	
-	string txtString = getTxtString();
+	string txtString = Being::getTxtString();
 	txtString += "\n" + to_string(this->fear);
 	return txtString;
 }
@@ -91,7 +91,7 @@ class Investigator: public Person {
 };
 
 string Investigator::getTxtString(){
-	string txtString = getTxtString();
+	string txtString = Person::getTxtString();
 	txtString += "\n" + to_string(this->terror);
 	return txtString;
 }
@@ -101,42 +101,42 @@ void Investigator::print(){
 
 class Creature: public Being {
     public:
-	Creature(string name = "", int life = roll(MIN_STAT, MAX_STAT), int strength = roll(MIN_STAT, MAX_STAT), int intelligence= roll(MIN_STAT, MAX_STAT), int unnatural = 0, int disquiet = roll(MIN_STAT, MAX_STAT));
-    int unnatural;
+	Creature(string name = "", int life = roll(MIN_STAT, MAX_STAT), int strength = roll(MIN_STAT, MAX_STAT), int intelligence= roll(MIN_STAT, MAX_STAT), Origin creature_type = Natural, int disquiet = roll(MIN_STAT, MAX_STAT));
+    Origin creature_type;
     int disquiet;
 	virtual void print();
 	virtual string getTxtString();
 	friend ostream& operator <<(ostream& out, const Creature *horror);
 };
-Creature::Creature(string name, int life, int strength, int intelligence, int unnatural, int disquiet) {
+Creature::Creature(string name, int life, int strength, int intelligence, Origin creature_type, int disquiet) {
 
 }
 string Creature::getTxtString(){
-	string txtString = getTxtString();
-	txtString += "\n" + to_string(this->unnatural);
+	string txtString = Being::getTxtString();
+	txtString += "\n" + to_string(this->creature_type);
 	txtString += "\n" + to_string(this->disquiet);
 	return txtString;
 }
 
 void Creature::print(){
-	cout << "Unnatural: " << this->unnatural <<endl;
+	cout << "Unnatural: " << this->creature_type <<endl;
 	cout << "Disquiet: " << this->disquiet <<endl;
 }
 
 class Eldritch_Horror: public Creature {
     public:
-	Eldritch_Horror(string name = "", int life = roll(MIN_STAT, MAX_STAT), int strength = roll(MIN_STAT, MAX_STAT), int intelligence= roll(MIN_STAT, MAX_STAT), int traumatism = roll(MIN_STAT, ELDRICTH_MAX), int unnatural = 1, int disquiet = roll(MIN_STAT, MAX_STAT));
+	Eldritch_Horror(string name = "", int life = roll(MIN_STAT, MAX_STAT), int strength = roll(MIN_STAT, MAX_STAT), int intelligence= roll(MIN_STAT, MAX_STAT), int traumatism = roll(MIN_STAT, ELDRICTH_MAX), Origin creature_type = Unnatural, int disquiet = roll(MIN_STAT, MAX_STAT));
     int traumatism;
 	virtual void print();
 	virtual string getTxtString();
 	friend ostream& operator <<(ostream& out, const Eldritch_Horror *horror);
 };
-Eldritch_Horror::Eldritch_Horror(string name, int life, int strength, int intelligence, int traumatism, int unnatural, int disquiet) {
+Eldritch_Horror::Eldritch_Horror(string name, int life, int strength, int intelligence, int traumatism, Origin creature_type, int disquiet) {
 	this->name = name;
 }
 
 string Eldritch_Horror::getTxtString(){
-	string txtString = getTxtString();
+	string txtString = Creature::getTxtString();
 	txtString += "\n" + to_string(this->traumatism);
 	return txtString;
 }
@@ -150,7 +150,7 @@ ostream& operator<<(ostream& out, const Eldritch_Horror *horror){
 	out << "Life: " << horror->life << endl;
 	out << "Strength: " << horror->strength << endl;
 	out << "Intelligence: " << horror->intelligence << endl;
-	out << "Origin: " << getUnNaturalString(horror->unnatural) << endl;
+	out << "Origin: " << getOriginString(horror->creature_type) << endl;
 	out << "Disquet: " << horror->disquiet << endl;
 	out << "Traumatism: " << horror->traumatism << endl;
 	return out;
@@ -160,10 +160,11 @@ ostream& operator<<(ostream& out, const Creature *horror){
 	out << "Life: " << horror->life << endl;
 	out << "Strength: " << horror->strength << endl;
 	out << "Intelligence: " << horror->intelligence << endl;
-	out << "Origin: " << getUnNaturalString(horror->unnatural) << endl;
+	out << "Origin: " << getOriginString(horror->creature_type) << endl;
 	out << "Disquet: " << horror->disquiet << endl;
 	return out;
 }
+
 /*class Nurse: public Person {
 	public:
 	Nurse(string name = "Ratchett", string job = "Nurse", string gender = "Female", int life = roll(5,8), int strenght = roll(3,8), int intelligence = roll(7,10));
