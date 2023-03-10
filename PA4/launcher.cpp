@@ -46,75 +46,82 @@ E create_creature(E a){
 		}
 		creaturelist.close();
 		while(on){
-		cout << "What creature would you like to create: ";
-		cin >> creature;
-		toupper(creature[0]);
-		filepath = "Characters/Creatures/templates/";
-		filepath += creature;
-		filepath += ".txt";
-		ifstream creatures(filepath);
-		if(creatures){
-			int number = 1;
-			bool exists = true;
-			creatures >> type;
-			if(type == "Eldritch_Horror") {
-				Eldritch_Horror *new_creature;
-				new_creature = new Eldritch_Horror();
-				horror = true;
-				creatures >> new_creature->name;
-				creatures >> new_creature->life;
-				creatures >> new_creature->strength;
-				creatures >> new_creature->intelligence;
-				creatures >> new_creature->unnatural;
-				creatures >> new_creature->disquiet;
-				creatures >> new_creature->traumatism;
-				string path = "Characters/Creatures/";
-				add_to_file(new_creature, path);
-			}
-			else{
-				Creature *new_creature;
-				new_creature = new Creature();
-				creatures >> new_creature->name;
-				creatures >> new_creature->life;
-				creatures >> new_creature->strength;
-				creatures >> new_creature->intelligence;
-				creatures >> new_creature->unnatural;
-				creatures >> new_creature->disquiet;
-				string path = "Characters/Creatures/";
-				add_to_file(new_creature, path);
-			}
-			creatures.close();
-			while(exists) {
-			filepath = "Characters/Creatures/";
-			filepath+=name;
-			string numstring = std::to_string(number);
-			filepath += numstring;
-			filepath += +".txt";
-			ifstream creatures2(filepath);
-			if(creatures2){
-				number++;
+			cout << "What creature would you like to create: ";
+			cin >> creature;
+			toupper(creature[0]);
+			filepath = "Characters/Creatures/templates/";
+			filepath += creature;
+			filepath += ".txt";
+			ifstream creatures(filepath);
+			if(creatures){
+				cout << "here" << endl;
+				int number = 1;
+				bool exists = true;
+				creatures >> type;
+				if(type == "Eldritch_Horror") {
+					Eldritch_Horror *new_creature;
+					new_creature = new Eldritch_Horror();
+					horror = true;
+					creatures >> new_creature->name;
+					creatures >> new_creature->life;
+					creatures >> new_creature->strength;
+					creatures >> new_creature->intelligence;
+					creatures >> new_creature->creature_type;
+					creatures >> new_creature->disquiet;
+					creatures >> new_creature->traumatism;
+					string path = "Characters/Creatures/";
+					add_to_file(new_creature, path);
+					on = false;
 				}
-			else{
-				//newcreature.open(filepath);
+				else{
+					Creature *new_creature;
+					new_creature = new Creature();
+					creatures >> new_creature->name;
+					creatures >> new_creature->life;
+					creatures >> new_creature->strength;
+					creatures >> new_creature->intelligence;
+					creatures >> new_creature->creature_type;
+					creatures >> new_creature->disquiet;
+					string path = "Characters/Creatures/";
+					add_to_file(new_creature, path);
+					on = false;
+				}
+				creatures.close();
+				/* while(exists) {
+					filepath = "Characters/Creatures/";
+					filepath+=name;
+					string numstring = std::to_string(number);
+					filepath += numstring;
+					filepath += +".txt";
+					ifstream creatures2(filepath);
+					if(creatures2){
+						number++;
+						string stuff;
+						cout << filepath << endl;
+						cin >> stuff;
+					}
+					else{
+						//newcreature.open(filepath);
 
-				/*name+=numstring;
-				newcreature << name << endl;
-				newcreature << horror << endl;
-				newcreature << life << endl;
-				newcreature << strength << endl;
-				newcreature << intelligence << endl;
-				newcreature << unnatural << endl;
-				newcreature << disquiet << endl;
-				if(horror){
-					newcreature << traumatism << endl;
-				}*/
-				exists = false;
-				on = false;
-			}}
+						name+=numstring;
+						newcreature << name << endl;
+						newcreature << horror << endl;
+						newcreature << life << endl;
+						newcreature << strength << endl;
+						newcreature << intelligence << endl;
+						newcreature << unnatural << endl;
+						newcreature << disquiet << endl;
+						if(horror){
+							newcreature << traumatism << endl;
+						}
+						exists = false;
+						on = false;
+					}
+				} */
 			}
-		else {
-			cout << "Template does not exists." << endl;	
-		}
+			else {
+				cout << "Template does not exists." << endl;	
+			}
 		}
 	}
 	else {
@@ -194,23 +201,24 @@ void add_to_file(I type, X path) {
 	string filepath;
 	bool exists = true;
 	name = type->name;
-	int number = 0;
-	string num_to_str = to_string(number);
+	int number = 1;
 	while(exists){
-	filepath = path;
-	filepath += name;
-	filepath += num_to_str;
-	filepath += ".txt";
-	ifstream check(filepath);
-	if(check){
-		number++;
-	}
-	else{
-		ofstream out(filepath);
-		cout << type->getTxtString();
-		out << type->getTxtString();
-		exists = false;
-	}
+		string num_to_str = to_string(number);
+		cout << "here2" << endl;
+		filepath = path;
+		filepath += name;
+		filepath += num_to_str;
+		filepath += ".txt";
+		ifstream check(filepath);
+		
+		if(check){
+			number++;
+		}
+		else{
+			ofstream out(filepath);
+			out << type->getTxtString();
+			exists = false;
+		}
 	}
 
 }
